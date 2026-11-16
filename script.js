@@ -1,3 +1,19 @@
+// Supabase: publishable key only. Never put a service_role key in this file.
+const SUPABASE_URL = 'https://eqatkbttuwvveyvpbjpi.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_l8ZWpsL_rHeNlJxdXHavxQ_5RBuEf33';
+
+// Insert one row into a table. Anonymous visitors may only INSERT (see the RLS policies).
+async function saveRow(table, row) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+    body: JSON.stringify(row),
+  });
+  if (!res.ok) throw new Error(`Save failed (${res.status})`);
+}
+// Empty form fields become null, so the database does not store empty strings
+const orNull = (v) => (typeof v === 'string' ? (v.trim() === '' ? null : v.trim()) : v);
+
 // Mobile nav toggle (the header turns purple while the menu is open)
 const header = document.querySelector('.navbar');
 const toggle = document.querySelector('.navbar__toggle');
@@ -82,14 +98,29 @@ if (tourDialog) {
   tourDialog.addEventListener('click', (e) => { if (e.target === tourDialog) tourDialog.close(); });
 }
 
-// Enquiry forms (contact page + Book a Tour). There is no backend yet, so a
-// valid submit only shows a confirmation; wire the fetch() here when one exists.
+// Enquiry forms (contact page, Book a Tour and the other pages).
+// Each valid submit is saved to the `enquiries` table in Supabase.
 document.querySelectorAll('form[data-enquiry]').forEach((form) => {
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = form.querySelector('.form__status');
-    form.reset();
-    status.textContent = 'Thank you! We have your message and will reply within 24 hours.';
+    const fd = new FormData(form);
+    const row = {
+      first_name: orNull(fd.get('firstName')),
+      last_name: orNull(fd.get('lastName')),
+      email: orNull(fd.get('email')),
+      phone: orNull(fd.get('phone')),
+      subject: orNull(fd.get('subject')),
+      message: orNull(fd.get('message')),
+    };
+    status.textContent = 'Sending…';
+    try {
+      await saveRow('enquiries', row);
+      form.reset();
+      status.textContent = 'Thank you! We have your message and will reply within 24 hours.';
+    } catch {
+      status.textContent = 'Sorry, your message could not be sent. Please try again.';
+    }
   });
 });
 
@@ -733,9 +764,40 @@ window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => { if 
     }
   };
 
-  const submit = () => {
+  const submit = async () => {
     const name = val('parentFirst') || 'there';
     const child = val('childFirst');
+    const row = {
+      parent_first: orNull(val('parentFirst')),
+      parent_last: orNull(val('parentLast')),
+      relationship: orNull(val('relationship')),
+      email: orNull(val('email')),
+      phone: orNull([val('phoneCode'), val('phone')].filter(Boolean).join(' ')),
+      address: orNull(val('address')),
+      city: orNull(val('city')),
+      child_first: orNull(val('childFirst')),
+      child_last: orNull(val('childLast')),
+      dob: orNull(val('dob')),
+      gender: orNull(val('gender')),
+      nationality: orNull(val('nationality')),
+      languages: orNull(val('languages')),
+      needs: orNull(val('needs')),
+      campus: orNull(val('campus')),
+      programme: orNull(val('programme')),
+      session: orNull(val('session')),
+      start_pref: orNull(val('start')),
+      heard: orNull(val('heard')),
+      tour: !!form.elements.tour?.checked,
+    };
+    nextBtn.disabled = true;
+    try {
+      await saveRow('enrolments', row);
+    } catch {
+      nextBtn.disabled = false;
+      note.textContent = 'Sorry, your enrolment could not be sent. Please try again.';
+      return;
+    }
+    nextBtn.disabled = false;
     document.getElementById('en-done-title').textContent = `Thank you, ${name}!`;
     document.getElementById('en-done-text').textContent =
       `We have your enrolment request${child ? ` for ${child}` : ''}. Our admissions team will be in touch within 24 hours${form.elements.tour.checked ? ' to arrange your school tour' : ''}.`;
