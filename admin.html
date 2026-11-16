@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin · Kangaroo Kids</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 24px; background: #f7f5fb; color: #222; }
+    h1 { font-size: 22px; margin: 0 0 16px; }
+    .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, .08); margin-bottom: 16px; }
+    label { display: block; font-size: 13px; margin: 10px 0 4px; }
+    input, select, button { font: inherit; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; }
+    input { width: 100%; max-width: 320px; box-sizing: border-box; }
+    button { background: #4b2a7b; color: #fff; border: 0; cursor: pointer; margin-top: 12px; }
+    button.secondary { background: #eee; color: #222; }
+    .tabs button { margin-right: 8px; }
+    .logout { float: right; margin-right: 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+    th { background: #faf8fd; white-space: nowrap; }
+    .scroll { overflow-x: auto; }
+    .error { color: #b00020; font-size: 13px; min-height: 18px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Admin · Kangaroo Kids</h1>
+
+  <section id="login" class="card">
+    <form id="login-form">
+      <label for="email">Email</label>
+      <input id="email" type="email" required autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" type="password" required autocomplete="current-password" />
+      <button type="submit">Log in</button>
+      <p class="error" id="login-error"></p>
+    </form>
+  </section>
+
+  <section id="app" class="card hidden">
+    <div class="tabs">
+      <button id="tab-enquiries" type="button">Enquiries</button>
+      <button id="tab-enrolments" type="button" class="secondary">Enrolments</button>
+      <button id="logout" type="button" class="secondary logout">Log out</button>
+    </div>
+    <p class="error" id="data-error"></p>
+    <div class="scroll">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    // Publishable key only. The admin rights come from the login token and RLS policies.
+    const SUPABASE_URL = 'https://eqatkbttuwvveyvpbjpi.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_l8ZWpsL_rHeNlJxdXHavxQ_5RBuEf33';
+    const SESSION_KEY = 'kk-admin-session';
+
+    const $ = (id) => document.getElementById(id);
+    let session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+    let current = 'enquiries';
+
+    const COLUMNS = {
+      enquiries: {
+        table: 'enquiries',
+        cols: ['created_at', 'first_name', 'last_name', 'email', 'phone', 'subject', 'message', 'status'],
+      },
+      enrolments: {
+        table: 'enrolments',
+        cols: ['created_at', 'parent_first', 'parent_last', 'email', 'phone', 'child_first', 'child_last', 'dob', 'programme', 'session', 'start_pref', 'tour', 'status'],
+      },
+    };
+
+    async function api(path, opts = {}) {
+      const headers = { apikey: SUPABASE_KEY, 'Content-Type': 'application/json', ...(opts.headers || {}) };
+      if (session) headers.Authorization = `Bearer ${session.access_token}`;
+      const res = await fetch(`${SUPABASE_URL}${path}`, { ...opts, headers });
+      const text = await res.text();
+      const body = text ? JSON.parse(text) : null;
+      if (!res.ok) throw new Error(body?.msg || body?.message || `Request failed (${res.status})`);
+      return body;
+    }
+
+    function statusSelect(table, id, value) {
+      const sel = document.createElement('select');
+      ['new', 'contacted', 'closed'].forEach((v) => {
+        const o = document.createElement('option');
+        o.value = v;
+        o.textContent = v;
+        if (v === value) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', async () => {
+        $('data-error').textContent = '';
+        try {
+          await api(`/rest/v1/${table}?id=eq.${id}`, {
+            method: 'PATCH',
+            headers: { Prefer: 'return=minimal' },
+            body: JSON.stringify({ status: sel.value }),
+          });
+        } catch (err) {
+          $('data-error').textContent = `Could not update status: ${err.message}`;
+        }
+      });
+      return sel;
+    }
+
+    async function load(kind) {
+      current = kind;
+      const cfg = COLUMNS[kind];
+      $('data-error').textContent = '';
+      $('tab-enquiries').className = kind === 'enquiries' ? '' : 'secondary';
+      $('tab-enrolments').className = kind === 'enrolments' ? '' : 'secondary';
+      $('thead').innerHTML = '';
+      $('tbody').innerHTML = '';
+
+      try {
+        const rows = await api(`/rest/v1/${cfg.table}?select=*&order=created_at.desc`);
+
+        const headRow = document.createElement('tr');
+        cfg.cols.forEach((c) => {
+          const th = document.createElement('th');
+          th.textContent = c;
+          headRow.appendChild(th);
+        });
+        $('thead').appendChild(headRow);
+
+        if (!rows.length) {
+          const r = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = cfg.cols.length;
+          td.textContent = 'No submissions yet.';
+          r.appendChild(td);
+          $('tbody').appendChild(r);
+          return;
+        }
+
+        rows.forEach((row) => {
+          const r = document.createElement('tr');
+          cfg.cols.forEach((c) => {
+            const td = document.createElement('td');
+            if (c === 'status') {
+              td.appendChild(statusSelect(cfg.table, row.id, row.status));
+            } else if (c === 'created_at') {
+              td.textContent = new Date(row.created_at).toLocaleString('id-ID');
+            } else {
+              td.textContent = row[c] === null || row[c] === undefined ? '' : String(row[c]);
+            }
+            r.appendChild(td);
+          });
+          $('tbody').appendChild(r);
+        });
+      } catch (err) {
+        $('data-error').textContent = `Could not load data: ${err.message}`;
+      }
+    }
+
+    async function showApp() {
+      $('login').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      await load(current);
+    }
+
+    $('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('login-error').textContent = '';
+      session = null;
+      try {
+        const data = await api('/auth/v1/token?grant_type=password', {
+          method: 'POST',
+          body: JSON.stringify({ email: $('email').value.trim(), password: $('password').value }),
+        });
+        session = { access_token: data.access_token };
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        $('password').value = '';
+        await showApp();
+      } catch {
+        $('login-error').textContent = 'Login failed. Check your email and password.';
+      }
+    });
+
+    $('tab-enquiries').addEventListener('click', () => load('enquiries'));
+    $('tab-enrolments').addEventListener('click', () => load('enrolments'));
+    $('logout').addEventListener('click', () => {
+      session = null;
+      sessionStorage.removeItem(SESSION_KEY);
+      location.reload();
+    });
+
+    if (session) showApp();
+  </script>
+</body>
+</html>
