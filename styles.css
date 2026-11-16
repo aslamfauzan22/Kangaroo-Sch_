@@ -111,7 +111,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
    Logo (composed of two vector groups, positioned as in Figma)
    ========================================================= */
 .logo { position: relative; display: block; overflow: hidden; flex-shrink: 0; }
-.logo--nav { width: 183px; height: 64px; }
+.logo--nav { width: 140px; height: 49px; }
 .logo--footer { width: 169px; height: 120px; }
 
 /* Absolutely-positioned layer that holds one vector of a composed graphic */
@@ -129,7 +129,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 16px 32px 24px;
+  padding: 12px 32px;
   background: var(--neutral-05);
 }
 .navbar__left { display: flex; align-items: flex-end; gap: 24px; flex: 1; min-width: 0; }
