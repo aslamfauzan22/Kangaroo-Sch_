@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enrol – Kangaroo Kids Maldives</title>
+  <meta name="description" content="Start your child’s journey at Kangaroo Kids International Preschool. Complete our short enrolment form and our admissions team will be in touch within 24 hours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Inter:wght@400;500;600&family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=32" />
+</head>
+<body>
+
+  <!-- ============ Navbar ============ -->
+  <header class="navbar">
+    <a href="index.html" class="logo logo--nav logo--color" aria-label="Kangaroo Kids home">
+      <span class="layer" style="inset:-0.02% 78.68% 24.99% 0"><img src="assets/group.svg" alt="" /></span>
+      <span class="layer" style="inset:54.97% 0 0 17.55%"><img src="assets/group1.svg" alt="" /></span>
+    </a>
+    <a href="index.html" class="logo logo--nav logo--white" aria-label="Kangaroo Kids home">
+      <span class="layer" style="inset:-0.02% 78.68% 24.99% 0"><img src="assets/nav-logo-white-a.svg" alt="" /></span>
+      <span class="layer" style="inset:54.97% 0 0 17.55%"><img src="assets/nav-logo-white-b.svg" alt="" /></span>
+    </a>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <a class="nav__item" href="about.html">About Us</a>
+      <div class="nav__dropdown">
+        <button class="nav__item" type="button" aria-expanded="false" aria-controls="academic-menu">Academic<img class="nav__chev" src="assets/chevron-down.svg" width="20" height="20" alt="" /><img class="nav__chev nav__chev--white" src="assets/chevron-down-white.svg" width="20" height="20" alt="" /></button>
+        <ul class="nav__menu" id="academic-menu" hidden>
+          <li><a href="curriculum.html">Curriculum</a></li>
+          <li><a href="programs.html">Programmes</a></li>
+        </ul>
+      </div>
+      <div class="nav__dropdown">
+        <button class="nav__item" type="button" aria-expanded="false" aria-controls="school-menu">School Life<img class="nav__chev" src="assets/chevron-down.svg" width="20" height="20" alt="" /><img class="nav__chev nav__chev--white" src="assets/chevron-down-white.svg" width="20" height="20" alt="" /></button>
+        <ul class="nav__menu" id="school-menu" hidden>
+          <li><a href="school-life.html">School Life</a></li>
+          <li><a href="playground.html">Playground &amp; Enrichment</a></li>
+        </ul>
+      </div>
+      <a class="nav__item" href="admissions.html">Admission Process</a>
+      <a class="nav__item" href="contact.html">Contact us</a>
+      <a class="btn btn--yellow btn--ui btn--nav nav__cta" href="contact.html" data-open-tour>Book a Tour</a>
+    </nav>
+    <div class="navbar__right">
+      <a class="btn btn--yellow btn--ui btn--nav" href="contact.html" data-open-tour>Book a Tour</a>
+      <button class="navbar__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">
+        <img class="icon-menu" src="assets/menu-04.svg" width="32" height="32" alt="" />
+        <img class="icon-close" src="assets/nav-close.svg" width="32" height="32" alt="" />
+      </button>
+    </div>
+  </header>
+
+
+  <main class="en">
+    <div class="en__wrap">
+      <header class="en__head">
+        <div class="sec-head"><h1 class="h1">Enrol at Kangaroo Kids</h1></div>
+        <p class="p1">Fill out the short form below and our admissions team will be in touch with you within 24 hours. It takes about five minutes, and there is no obligation.</p>
+      </header>
+
+      <ol class="stepper" aria-label="Enrolment progress">
+        <li class="stepper__item is-active" aria-current="step"><span class="stepper__dot">1</span><span class="stepper__label">Parent’s particulars</span></li>
+        <li class="stepper__item"><span class="stepper__dot">2</span><span class="stepper__label">Child’s particulars</span></li>
+        <li class="stepper__item"><span class="stepper__dot">3</span><span class="stepper__label">Campus &amp; programme</span></li>
+        <li class="stepper__item"><span class="stepper__dot">4</span><span class="stepper__label">Review &amp; submit</span></li>
+      </ol>
+
+      <form class="en__card" id="enrol-form" data-enrol novalidate>
+        <!-- ===== Step 1: parent ===== -->
+        <section class="en-panel form" data-step="1" aria-labelledby="en-t1">
+          <div class="en-panel__head">
+            <h2 class="en-panel__title" id="en-t1" tabindex="-1">Parent’s particulars</h2>
+            <p class="en-panel__lead">Tell us who we should speak to about your child’s place.</p>
+          </div>
+          <div class="form__row">
+            <div class="field"><label for="p-first">First name of parent / legal guardian <span class="req" aria-hidden="true">*</span></label><input id="p-first" name="parentFirst" type="text" autocomplete="given-name" required /><p class="field__error" id="p-first-err" hidden></p></div>
+            <div class="field"><label for="p-last">Last name of parent / legal guardian <span class="req" aria-hidden="true">*</span></label><input id="p-last" name="parentLast" type="text" autocomplete="family-name" required /><p class="field__error" id="p-last-err" hidden></p></div>
+          </div>
+          <div class="field"><label for="p-rel">Relationship to the child <span class="req" aria-hidden="true">*</span></label><select id="p-rel" name="relationship" required><option value="" disabled selected>Select an option</option><option>Mother</option><option>Father</option><option>Legal guardian</option><option>Other</option></select><p class="field__error" id="p-rel-err" hidden></p></div>
+          <div class="form__row">
+            <div class="field"><label for="p-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="p-email" name="email" type="email" autocomplete="email" required /><p class="field__error" id="p-email-err" hidden></p></div>
+            <div class="field"><label for="p-phone">Phone number <span class="req" aria-hidden="true">*</span></label><div class="phone"><select id="p-cc" name="phoneCode" aria-label="Country code"><option selected>+960</option><option>+91</option><option>+94</option><option>+880</option><option>+44</option><option>+65</option><option>+1</option></select><input id="p-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" required /></div><p class="field__error" id="p-phone-err" hidden></p></div>
+          </div>
+          <div class="form__row">
+            <div class="field"><label for="p-addr">Residential address <span class="req" aria-hidden="true">*</span></label><input id="p-addr" name="address" type="text" autocomplete="street-address" required /><p class="field__error" id="p-addr-err" hidden></p></div>
+            <div class="field"><label for="p-city">Island / city <span class="req" aria-hidden="true">*</span></label><input id="p-city" name="city" type="text" autocomplete="address-level2" required /><p class="field__error" id="p-city-err" hidden></p></div>
+          </div>
+        </section>
+
+        <!-- ===== Step 2: child ===== -->
+        <section class="en-panel form" data-step="2" aria-labelledby="en-t2" hidden>
+          <div class="en-panel__head">
+            <h2 class="en-panel__title" id="en-t2" tabindex="-1">Child’s particulars</h2>
+            <p class="en-panel__lead">A few details so we can suggest the right programme.</p>
+          </div>
+          <div class="form__row">
+            <div class="field"><label for="c-first">Child’s first name <span class="req" aria-hidden="true">*</span></label><input id="c-first" name="childFirst" type="text" required /><p class="field__error" id="c-first-err" hidden></p></div>
+            <div class="field"><label for="c-last">Child’s last name <span class="req" aria-hidden="true">*</span></label><input id="c-last" name="childLast" type="text" required /><p class="field__error" id="c-last-err" hidden></p></div>
+          </div>
+          <div class="form__row">
+            <div class="field"><label for="c-dob">Date of birth <span class="req" aria-hidden="true">*</span></label><input id="c-dob" name="dob" type="date" required /><p class="field__hint" id="c-dob-hint" hidden></p><p class="field__error" id="c-dob-err" hidden></p></div>
+            <div class="field"><label for="c-gender">Gender <span class="req" aria-hidden="true">*</span></label><select id="c-gender" name="gender" required><option value="" disabled selected>Select an option</option><option>Girl</option><option>Boy</option><option>Prefer not to say</option></select><p class="field__error" id="c-gender-err" hidden></p></div>
+          </div>
+          <div class="form__row">
+            <div class="field"><label for="c-nat">Nationality <span class="req" aria-hidden="true">*</span></label><input id="c-nat" name="nationality" type="text" required /><p class="field__error" id="c-nat-err" hidden></p></div>
+            <div class="field"><label for="c-lang">Languages spoken at home</label><input id="c-lang" name="languages" type="text" /><p class="field__error" id="c-lang-err" hidden></p></div>
+          </div>
+          <div class="field"><label for="c-needs">Medical, dietary or learning needs</label><textarea id="c-needs" name="needs" placeholder="Optional. Anything our teachers should know to look after your child well."></textarea></div>
+        </section>
+
+        <!-- ===== Step 3: campus + programme ===== -->
+        <section class="en-panel form" data-step="3" aria-labelledby="en-t3" hidden>
+          <div class="en-panel__head">
+            <h2 class="en-panel__title" id="en-t3" tabindex="-1">Campus &amp; programme</h2>
+            <p class="en-panel__lead">Choose where and what your child would like to join. You can change your mind with our team later.</p>
+          </div>
+          <fieldset class="choice-group" data-group="campus" data-label="a campus">
+            <legend>Campus <span class="req" aria-hidden="true">*</span></legend>
+            <div class="choices choices--2">
+              <label class="choice"><input type="radio" name="campus" value="Dream Campus, Malé" /><span class="choice__body"><strong>Dream Campus, Malé</strong><small>Lonuziyaaraiy Magu, Malé 20064</small></span></label>
+              <label class="choice"><input type="radio" name="campus" value="Hulhumalé" /><span class="choice__body"><strong>Hulhumalé</strong><small>Opening soon for Academic Year 2027</small><span class="choice__tag">Opening soon</span></span></label>
+            </div>
+            <p class="field__error" hidden></p>
+          </fieldset>
+          <fieldset class="choice-group" data-group="programme" data-label="a programme">
+            <legend>Programme <span class="req" aria-hidden="true">*</span></legend>
+            <div class="choices choices--3">
+              <label class="choice"><input type="radio" name="programme" value="TTP" /><span class="choice__body"><strong>Toddler Transition Programme</strong><small>18 months – 2 years</small></span></label>
+              <label class="choice"><input type="radio" name="programme" value="Playschool" /><span class="choice__body"><strong>Playschool (PSY 1)</strong><small>2 – 3 years</small></span></label>
+              <label class="choice"><input type="radio" name="programme" value="Nursery" /><span class="choice__body"><strong>Nursery (PSY 2)</strong><small>3 – 4 years</small></span></label>
+              <label class="choice"><input type="radio" name="programme" value="JKG" /><span class="choice__body"><strong>Junior KG (PSY 3)</strong><small>4 – 5 years</small></span></label>
+              <label class="choice"><input type="radio" name="programme" value="SKG" /><span class="choice__body"><strong>Senior KG (PSY 4)</strong><small>5 – 6 years</small></span></label>
+            </div>
+            <p class="field__hint" id="en-suggest" hidden></p>
+            <p class="field__error" hidden></p>
+          </fieldset>
+          <div class="form__row">
+            <div class="field"><label for="s-session">Preferred session <span class="req" aria-hidden="true">*</span></label><select id="s-session" name="session" required disabled><option value="" disabled selected>Choose a programme first</option></select><p class="field__error" id="s-session-err" hidden></p></div>
+            <div class="field"><label for="s-start">Preferred start <span class="req" aria-hidden="true">*</span></label><select id="s-start" name="start" required><option value="" disabled selected>Select an option</option><option>As soon as possible</option><option>Next term</option><option>Academic Year 2027</option></select><p class="field__error" id="s-start-err" hidden></p></div>
+          </div>
+          <div class="field"><label for="s-heard">How did you hear about us?</label><select id="s-heard" name="heard"><option value="" disabled selected>Optional</option><option>Friend or family</option><option>Social media</option><option>Search engine</option><option>School visit or event</option><option>Other</option></select><p class="field__error" id="s-heard-err" hidden></p></div>
+          <label class="check"><input type="checkbox" name="tour" /><span>I would also like to book a school tour.</span></label>
+        </section>
+
+        <!-- ===== Step 4: review ===== -->
+        <section class="en-panel form" data-step="4" aria-labelledby="en-t4" hidden>
+          <div class="en-panel__head">
+            <h2 class="en-panel__title" id="en-t4" tabindex="-1">Review &amp; submit</h2>
+            <p class="en-panel__lead">Please check your details before sending your enrolment request.</p>
+          </div>
+          <div class="review" id="en-review"></div>
+          <div class="consent" tabindex="0" role="region" aria-label="Privacy notice">
+            <p>By submitting this form, I acknowledge and agree to the collection, use and disclosure of my personal data by Kangaroo Kids International Preschool for the purpose of processing my child’s enrolment, and for our admissions team to contact me about it.</p>
+            <p>I understand that my child’s information will only be shared with staff who need it to assess and confirm a place, and that I can ask the school to correct or delete my data at any time by writing to hello@kangarookids.mv.</p>
+          </div>
+          <div class="field" data-consent>
+            <label class="check"><input type="checkbox" name="consent" required /><span>I have read and agree to the above. <span class="req" aria-hidden="true">*</span></span></label>
+            <p class="field__error" id="consent-err" hidden></p>
+          </div>
+          <fieldset class="marketing">
+            <legend>I would also like to hear from Kangaroo Kids about events, open days and news, via:</legend>
+            <label class="check"><input type="checkbox" data-all /><span>All</span></label>
+            <div class="marketing__sub">
+              <label class="check"><input type="checkbox" name="optEmail" data-opt /><span>Email</span></label>
+              <label class="check"><input type="checkbox" name="optWhatsapp" data-opt /><span>Text messages such as WhatsApp</span></label>
+              <label class="check"><input type="checkbox" name="optPhone" data-opt /><span>Phone</span></label>
+            </div>
+          </fieldset>
+        </section>
+
+        <!-- ===== Done ===== -->
+        <section class="en-done" id="en-done" hidden aria-live="polite">
+          <span class="en-done__icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M9 18.5l6 6L27 12" stroke="#57388e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h2 class="en-panel__title" id="en-done-title" tabindex="-1">Thank you!</h2>
+          <p class="en-done__text" id="en-done-text">We have your enrolment request and our admissions team will be in touch within 24 hours.</p>
+          <div class="btn-row">
+            <a class="btn btn--purple btn--ui btn--md" href="index.html">Back to home</a>
+            <a class="btn btn--line btn--ui btn--md" href="admissions.html#faq">Read our FAQs</a>
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <!-- Sticky action bar -->
+    <div class="en__bar" id="en-bar">
+      <div class="en__bar-inner">
+        <p class="en__bar-note" id="en-note">Step 1 of 4</p>
+        <div class="en__bar-actions">
+          <button class="btn btn--line btn--ui btn--md" type="button" id="en-back" hidden>Back</button>
+          <button class="btn btn--purple btn--ui btn--md" type="button" id="en-next">Next</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="logo logo--footer" aria-label="Kangaroo Kids home">
+          <span class="layer" style="inset:0 31.32% 28.41% 27.23%"><img src="assets/group12.svg" alt="" /></span>
+          <span class="layer" style="inset:73.2% 0 0 0"><img src="assets/group13.svg" alt="" /></span>
+        </a>
+        <p>A safe and joyful learning space where children grow with confidence, curiosity, and care.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Facebook"><img src="assets/social-icon.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="Instagram" class="footer__ig"><span class="layer" style="inset:0 0.06% 0.02% 0"><img src="assets/group14.svg" alt="" /></span></a>
+        </div>
+      </div>
+      <nav class="footer__col" aria-label="Quick links">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="admissions.html">Admissions</a></li>
+          <li><a href="curriculum.html">Academic</a></li>
+          <li><a href="school-life.html">School Life</a></li>
+          <li><a href="index.html#news">News &amp; Events</a></li>
+        </ul>
+      </nav>
+      <nav class="footer__col" aria-label="Programs">
+        <h2>Programs</h2>
+        <ul>
+          <li><a href="programs.html#playschool">Playgroup</a></li>
+          <li><a href="programs.html#nursery">Nursery</a></li>
+          <li><a href="programs.html#junior-kg">Junior KG</a></li>
+          <li><a href="programs.html#senior-kg">Senior KG</a></li>
+        </ul>
+      </nav>
+      <div class="footer__contact">
+        <h2>Contact</h2>
+        <div class="contact-row">
+          <img src="assets/location-on.svg" width="24" height="24" alt="" />
+          <address><strong>Dream Campus, Malé</strong><span>Lonuziyaaraiy Magu, 20064</span></address>
+        </div>
+        <a class="contact-row" href="mailto:hello@kangarookids.mv">
+          <img src="assets/mail01.svg" width="24" height="24" alt="" />
+          <strong>hello@kangarookids.mv</strong>
+        </a>
+        <a class="contact-row" href="tel:+9607240606">
+          <img src="assets/phone1.svg" width="24" height="24" alt="" />
+          <strong>(+960) 724-0606</strong>
+        </a>
+      </div>
+    </div>
+    <p class="footer__copy">© 2026 Kangaroo Kids. All rights reserved.</p>
+  </footer>
+
+  <!-- ============ Book a Tour dialog ============ -->
+  <dialog class="modal" id="tour-dialog" aria-labelledby="tour-title">
+    <h2 class="modal__title" id="tour-title">Book a Tour</h2>
+    <form class="form" data-enquiry>
+      <div class="form__row">
+        <div class="field"><label for="tour-first">First Name*</label><input id="tour-first" name="firstName" autocomplete="given-name" required /></div>
+        <div class="field"><label for="tour-last">Last Name*</label><input id="tour-last" name="lastName" autocomplete="family-name" required /></div>
+      </div>
+      <div class="form__row form__row--wide">
+        <div class="field"><label for="tour-email">Email Address*</label><input id="tour-email" name="email" type="email" autocomplete="email" required /></div>
+        <div class="field"><label for="tour-phone">Phone Number</label><input id="tour-phone" name="phone" type="tel" autocomplete="tel" /></div>
+      </div>
+      <div class="field"><label for="tour-subject">Subject*</label><select id="tour-subject" name="subject" required><option selected>Book a tour</option><option>Admissions</option><option>Fees and policies</option><option>General enquiry</option></select></div>
+      <div class="field"><label for="tour-message">Message*</label><textarea id="tour-message" name="message" required></textarea></div>
+      <button class="btn btn--purple btn--ui btn--md" type="submit">Submit</button>
+      <p class="form__status" role="status"></p>
+    </form>
+    <button class="modal__close" type="button" aria-label="Close"><img src="assets/x-close.svg" width="24" height="24" alt="" /></button>
+  </dialog>
+
+  <script src="script.js?v=22"></script>
+</body>
+</html>
